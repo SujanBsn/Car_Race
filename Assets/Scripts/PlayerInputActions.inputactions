@@ -6,18 +6,27 @@
             "id": "7d37ac24-2ecf-4082-8432-2e7788f355c8",
             "actions": [
                 {
-                    "name": "LeftRight",
+                    "name": "K_LeftRight",
                     "type": "Value",
                     "id": "62bca1dc-863d-49e9-b2fe-d4426fc403c7",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "K_Accl",
+                    "type": "Value",
+                    "id": "0339a8cd-9346-4ef9-bb24-a0c41658a161",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Accl",
+                    "name": "S_LeftRight",
                     "type": "Value",
-                    "id": "0339a8cd-9346-4ef9-bb24-a0c41658a161",
+                    "id": "a2d601af-dfc3-4f48-b86e-6bb14d54c7ed",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -32,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LeftRight",
+                    "action": "K_LeftRight",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -43,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "LeftRight",
+                    "action": "K_LeftRight",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -54,20 +63,9 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "LeftRight",
+                    "action": "K_LeftRight",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "272907c8-3b1b-4a25-920e-ef4a8571c0bc",
-                    "path": "<Gyroscope>/angularVelocity/z",
-                    "interactions": "",
-                    "processors": "Invert",
-                    "groups": "Sensor",
-                    "action": "LeftRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "Accl/Decl",
@@ -76,7 +74,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Accl",
+                    "action": "K_Accl",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -87,7 +85,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Accl",
+                    "action": "K_Accl",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -98,9 +96,20 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Accl",
+                    "action": "K_Accl",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "61ce2572-345f-47ba-a3bd-576a3025b185",
+                    "path": "<Accelerometer>/acceleration/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "S_LeftRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

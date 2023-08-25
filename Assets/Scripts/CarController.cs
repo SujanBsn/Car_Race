@@ -15,10 +15,10 @@ public class CarController : MonoBehaviour
     public WheelCollider bottomLeftWheelCollider;
     public WheelCollider bottomRightWheelCollider;
 
-    public MeshRenderer frontLeftWheel;
-    public MeshRenderer frontRightWheel;
-    public MeshRenderer bottomLeftWheel;
-    public MeshRenderer bottomRightWheel;
+    public GameObject frontLeftWheel;
+    public GameObject frontRightWheel;
+    public GameObject bottomLeftWheel;
+    public GameObject bottomRightWheel;
 
     private float steeringAngle;
     private float speed;
@@ -31,15 +31,13 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         speed = gameObject.GetComponent<Rigidbody>().velocity.magnitude * 3.6f;
-        Steer();
+
+        //Steer();
+        TiltSteer();
         Accelerate();
         UpdateWheel();
-
-        Debug.Log(speed.ToString("#.##") + "  " +
-            steeringAngle.ToString("#.##") + "  " +
-            playerInputActions.Movements.Accl.ReadValue<float>() + "  " +
-            playerInputActions.Movements.LeftRight.ReadValue<float>());
     }
     public void UpdateWheel()
     {
@@ -49,16 +47,16 @@ public class CarController : MonoBehaviour
         UpdateWheelPose(bottomRightWheelCollider, bottomRightWheel);
     }
 
-    public void UpdateWheelPose(WheelCollider _collider, MeshRenderer _mesh)
+    public void UpdateWheelPose(WheelCollider _collider, GameObject _obj)
     {
         _collider.GetWorldPose(out Vector3 _pos, out Quaternion _quat);
 
-        _mesh.transform.SetPositionAndRotation(_pos, _quat);
+        _obj.transform.SetPositionAndRotation(_pos, _quat);
     }
 
     public void Accelerate()
     {
-        float _input = playerInputActions.Movements.Accl.ReadValue<float>();
+        float _input = 1f;//playerInputActions.Movements.Accl.ReadValue<float>();
 
         bottomLeftWheelCollider.motorTorque = motorPower * _input;
         bottomRightWheelCollider.motorTorque = motorPower * _input;
@@ -67,16 +65,28 @@ public class CarController : MonoBehaviour
 
     public void Steer()
     {
-        //InputSystem.EnableDevice(UnityEngine.InputSystem.Gyroscope.current);
-
-        float _input = playerInputActions.Movements.LeftRight.ReadValue<float>();
+        float _input = playerInputActions.Movements.K_LeftRight.ReadValue<float>();
 
         steeringAngle = _input * steeringCurve.Evaluate(speed);
-        steeringAngle = Mathf.Clamp(steeringAngle, -36f, 36f);
-        Debug.Log(steeringAngle);
+        steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
 
         frontLeftWheelCollider.steerAngle = steeringAngle;
         frontRightWheelCollider.steerAngle = steeringAngle;
     }
 
+    public void TiltSteer()
+    {
+        InputSystem.EnableDevice(Accelerometer.current);
+        float _sensitivity = 0.5f;
+
+        float _input = playerInputActions.Movements.S_LeftRight.ReadValue<float>();
+        _input *= steeringCurve.Evaluate(speed) * _sensitivity;
+
+        steeringAngle = _input;
+        steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
+        
+        frontLeftWheelCollider.steerAngle = steeringAngle;
+        frontRightWheelCollider.steerAngle = steeringAngle;
+        Debug.Log(steeringAngle.ToString("#.#"));
+    }
 }

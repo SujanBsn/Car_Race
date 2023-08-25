@@ -28,18 +28,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""7d37ac24-2ecf-4082-8432-2e7788f355c8"",
             ""actions"": [
                 {
-                    ""name"": ""LeftRight"",
+                    ""name"": ""K_LeftRight"",
                     ""type"": ""Value"",
                     ""id"": ""62bca1dc-863d-49e9-b2fe-d4426fc403c7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""K_Accl"",
+                    ""type"": ""Value"",
+                    ""id"": ""0339a8cd-9346-4ef9-bb24-a0c41658a161"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Accl"",
+                    ""name"": ""S_LeftRight"",
                     ""type"": ""Value"",
-                    ""id"": ""0339a8cd-9346-4ef9-bb24-a0c41658a161"",
+                    ""id"": ""a2d601af-dfc3-4f48-b86e-6bb14d54c7ed"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -54,7 +63,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftRight"",
+                    ""action"": ""K_LeftRight"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -65,7 +74,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""LeftRight"",
+                    ""action"": ""K_LeftRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -76,20 +85,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""LeftRight"",
+                    ""action"": ""K_LeftRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""272907c8-3b1b-4a25-920e-ef4a8571c0bc"",
-                    ""path"": ""<Gyroscope>/angularVelocity/z"",
-                    ""interactions"": """",
-                    ""processors"": ""Invert"",
-                    ""groups"": ""Sensor"",
-                    ""action"": ""LeftRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Accl/Decl"",
@@ -98,7 +96,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Accl"",
+                    ""action"": ""K_Accl"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -109,7 +107,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Accl"",
+                    ""action"": ""K_Accl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -120,9 +118,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Accl"",
+                    ""action"": ""K_Accl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61ce2572-345f-47ba-a3bd-576a3025b185"",
+                    ""path"": ""<Accelerometer>/acceleration/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""S_LeftRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -154,8 +163,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
 }");
         // Movements
         m_Movements = asset.FindActionMap("Movements", throwIfNotFound: true);
-        m_Movements_LeftRight = m_Movements.FindAction("LeftRight", throwIfNotFound: true);
-        m_Movements_Accl = m_Movements.FindAction("Accl", throwIfNotFound: true);
+        m_Movements_K_LeftRight = m_Movements.FindAction("K_LeftRight", throwIfNotFound: true);
+        m_Movements_K_Accl = m_Movements.FindAction("K_Accl", throwIfNotFound: true);
+        m_Movements_S_LeftRight = m_Movements.FindAction("S_LeftRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -217,14 +227,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Movements
     private readonly InputActionMap m_Movements;
     private List<IMovementsActions> m_MovementsActionsCallbackInterfaces = new List<IMovementsActions>();
-    private readonly InputAction m_Movements_LeftRight;
-    private readonly InputAction m_Movements_Accl;
+    private readonly InputAction m_Movements_K_LeftRight;
+    private readonly InputAction m_Movements_K_Accl;
+    private readonly InputAction m_Movements_S_LeftRight;
     public struct MovementsActions
     {
         private @PlayerInputActions m_Wrapper;
         public MovementsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftRight => m_Wrapper.m_Movements_LeftRight;
-        public InputAction @Accl => m_Wrapper.m_Movements_Accl;
+        public InputAction @K_LeftRight => m_Wrapper.m_Movements_K_LeftRight;
+        public InputAction @K_Accl => m_Wrapper.m_Movements_K_Accl;
+        public InputAction @S_LeftRight => m_Wrapper.m_Movements_S_LeftRight;
         public InputActionMap Get() { return m_Wrapper.m_Movements; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -234,22 +246,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MovementsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MovementsActionsCallbackInterfaces.Add(instance);
-            @LeftRight.started += instance.OnLeftRight;
-            @LeftRight.performed += instance.OnLeftRight;
-            @LeftRight.canceled += instance.OnLeftRight;
-            @Accl.started += instance.OnAccl;
-            @Accl.performed += instance.OnAccl;
-            @Accl.canceled += instance.OnAccl;
+            @K_LeftRight.started += instance.OnK_LeftRight;
+            @K_LeftRight.performed += instance.OnK_LeftRight;
+            @K_LeftRight.canceled += instance.OnK_LeftRight;
+            @K_Accl.started += instance.OnK_Accl;
+            @K_Accl.performed += instance.OnK_Accl;
+            @K_Accl.canceled += instance.OnK_Accl;
+            @S_LeftRight.started += instance.OnS_LeftRight;
+            @S_LeftRight.performed += instance.OnS_LeftRight;
+            @S_LeftRight.canceled += instance.OnS_LeftRight;
         }
 
         private void UnregisterCallbacks(IMovementsActions instance)
         {
-            @LeftRight.started -= instance.OnLeftRight;
-            @LeftRight.performed -= instance.OnLeftRight;
-            @LeftRight.canceled -= instance.OnLeftRight;
-            @Accl.started -= instance.OnAccl;
-            @Accl.performed -= instance.OnAccl;
-            @Accl.canceled -= instance.OnAccl;
+            @K_LeftRight.started -= instance.OnK_LeftRight;
+            @K_LeftRight.performed -= instance.OnK_LeftRight;
+            @K_LeftRight.canceled -= instance.OnK_LeftRight;
+            @K_Accl.started -= instance.OnK_Accl;
+            @K_Accl.performed -= instance.OnK_Accl;
+            @K_Accl.canceled -= instance.OnK_Accl;
+            @S_LeftRight.started -= instance.OnS_LeftRight;
+            @S_LeftRight.performed -= instance.OnS_LeftRight;
+            @S_LeftRight.canceled -= instance.OnS_LeftRight;
         }
 
         public void RemoveCallbacks(IMovementsActions instance)
@@ -287,7 +305,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IMovementsActions
     {
-        void OnLeftRight(InputAction.CallbackContext context);
-        void OnAccl(InputAction.CallbackContext context);
+        void OnK_LeftRight(InputAction.CallbackContext context);
+        void OnK_Accl(InputAction.CallbackContext context);
+        void OnS_LeftRight(InputAction.CallbackContext context);
     }
 }
