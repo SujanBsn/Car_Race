@@ -6,27 +6,18 @@
             "id": "7d37ac24-2ecf-4082-8432-2e7788f355c8",
             "actions": [
                 {
-                    "name": "K_LeftRight",
+                    "name": "LeftRight",
                     "type": "Value",
                     "id": "62bca1dc-863d-49e9-b2fe-d4426fc403c7",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "K_Accl",
-                    "type": "Value",
-                    "id": "0339a8cd-9346-4ef9-bb24-a0c41658a161",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "S_LeftRight",
+                    "name": "Accl",
                     "type": "Value",
-                    "id": "a2d601af-dfc3-4f48-b86e-6bb14d54c7ed",
+                    "id": "0339a8cd-9346-4ef9-bb24-a0c41658a161",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -41,7 +32,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "K_LeftRight",
+                    "action": "LeftRight",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -51,8 +42,8 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "K_LeftRight",
+                    "groups": "",
+                    "action": "LeftRight",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -62,10 +53,21 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "K_LeftRight",
+                    "groups": "",
+                    "action": "LeftRight",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "76ba2447-a8d1-464b-a83d-b585cd3af872",
+                    "path": "<Accelerometer>/acceleration/y",
+                    "interactions": "",
+                    "processors": "AxisDeadzone(max=1)",
+                    "groups": "",
+                    "action": "LeftRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "Accl/Decl",
@@ -74,7 +76,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "K_Accl",
+                    "action": "Accl",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -84,8 +86,8 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "K_Accl",
+                    "groups": "",
+                    "action": "Accl",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -95,47 +97,13 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "K_Accl",
+                    "groups": "",
+                    "action": "Accl",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "61ce2572-345f-47ba-a3bd-576a3025b185",
-                    "path": "<Accelerometer>/acceleration/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "S_LeftRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "Keyboard",
-            "bindingGroup": "Keyboard",
-            "devices": [
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "Sensor",
-            "bindingGroup": "Sensor",
-            "devices": [
-                {
-                    "devicePath": "<Gyroscope>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }
