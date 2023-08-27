@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,13 +11,12 @@ public enum GearState
     Changing
 }
 
-
 public class CarController : MonoBehaviour
 {
-
     public float maxSteeringAngle;
     public float motorPower;
     public float brakePower;
+    public float speed;
     public float idleRPM;
     public float redlineRPM;
     public float differentialRatio;
@@ -28,9 +26,9 @@ public class CarController : MonoBehaviour
     public float[] gearRatio;
     public float[] speedPerGear;
 
+    public PlayerInputActions playerInputActions;
     public AnimationCurve steeringCurve;
     public AnimationCurve hpCurve;
-    public PlayerInputActions playerInputActions;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI rpmText;
     public TextMeshProUGUI gearText;
@@ -47,15 +45,14 @@ public class CarController : MonoBehaviour
     
     private Rigidbody playerRb;
 
-    private float acclInput = 0f;
-    private float steerInput = 0f;
-    private float brakeInput = 0f;
+    private float acclInput;
+    private float steerInput;
+    private float brakeInput;
 
-    private float steeringAngle = 0f;
-    private float currentRPM = 0f;
-    private float currentTorque = 0f;
-    private float wheelRPM = 0f;
-    private float speed = 0f;
+    private float steeringAngle;
+    private float currentRPM;
+    private float currentTorque;
+    private float wheelRPM;
 
     private GearState gearState = GearState.Running;
 
@@ -76,12 +73,9 @@ public class CarController : MonoBehaviour
         gearText.text = (currentGear + 1).ToString();
 
         CheckInput();
-        Steer();
-
         if (SystemInfo.supportsAccelerometer)
-        {
             TiltSteer();
-        }
+        Steer();
         Brake();
         Accelerate();
         UpdateWheel();
@@ -97,17 +91,15 @@ public class CarController : MonoBehaviour
     public void UpdateWheelPose(WheelCollider _collider, GameObject _obj)
     {
         _collider.GetWorldPose(out Vector3 _pos, out Quaternion _quat);
-
         _obj.transform.SetPositionAndRotation(_pos, _quat);
     }
 
     public void CheckInput()
     {
-        float _movingDirection = 0f;
         acclInput = playerInputActions.Movements.Accl.ReadValue<float>();
         steerInput = playerInputActions.Movements.LeftRight.ReadValue<float>();
 
-        _movingDirection = Vector3.Dot(transform.forward, playerRb.velocity);
+        float _movingDirection = Vector3.Dot(transform.forward, playerRb.velocity);
         if (_movingDirection < -0.5f && acclInput > 0)
             brakeInput = Mathf.Abs(acclInput);
         else if (_movingDirection > 0.5f && acclInput < 0)
@@ -124,15 +116,8 @@ public class CarController : MonoBehaviour
         bottomLeftWheelCollider.brakeTorque = brakePower * brakeInput * .3f;
         bottomRightWheelCollider.brakeTorque = brakePower * brakeInput * .3f;
     }
-    public void Accelerate()
-    {
-        currentTorque = CalculateTorque();
-        bottomLeftWheelCollider.motorTorque = currentTorque * acclInput;
-        bottomRightWheelCollider.motorTorque = currentTorque * acclInput;
-    }
     public float CalculateTorque()
     {
-        float _torque = 0f; 
         if (gearState == GearState.Running)
         {
             if (currentRPM > increaseGearRPM && speed >= speedPerGear[currentGear])
@@ -145,9 +130,15 @@ public class CarController : MonoBehaviour
             .5f * gearRatio[currentGear] * differentialRatio;
 
         currentRPM = Mathf.Lerp(currentRPM, Mathf.Max(idleRPM - 100, wheelRPM), Time.deltaTime * 3f);
-        _torque = hpCurve.Evaluate(currentRPM / redlineRPM) * motorPower / currentRPM *
+        float _torque = hpCurve.Evaluate(currentRPM / redlineRPM) * motorPower / currentRPM * 
             gearRatio[currentGear] * differentialRatio * 5252f;
         return _torque;
+    }
+    public void Accelerate()
+    {
+        currentTorque = CalculateTorque();
+        bottomLeftWheelCollider.motorTorque = currentTorque * acclInput;
+        bottomRightWheelCollider.motorTorque = currentTorque * acclInput;
     }
 
     public void Steer()
@@ -201,5 +192,11 @@ public class CarController : MonoBehaviour
             currentGear += _gearChange;
         }
         gearState = GearState.Running;
+    }
+
+    public float GetSpeedRatio()
+    {
+        var _gas = Mathf.Clamp(Mathf.Abs(acclInput), 0.5f, 1f) * Mathf.Sign(acclInput);
+        return currentRPM * _gas / redlineRPM;
     }
 }
