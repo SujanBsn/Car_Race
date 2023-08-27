@@ -153,10 +153,6 @@ public class CarController : MonoBehaviour
     public void Steer()
     {
         steeringAngle = steerInput * steeringCurve.Evaluate(speed);
-
-        if(speed>=35)
-            steeringAngle += Vector3.SignedAngle(transform.forward, playerRb.velocity + transform.forward, Vector3.up);
-
         steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
 
         frontLeftWheelCollider.steerAngle = steeringAngle;
@@ -170,10 +166,6 @@ public class CarController : MonoBehaviour
 
         steerInput *= steeringCurve.Evaluate(speed) * _sensitivity;
         steeringAngle = steerInput;
-
-        if (speed >= 35)
-            steeringAngle += Vector3.SignedAngle(transform.forward, playerRb.velocity + transform.forward, Vector3.up);
-
         steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
         
         frontLeftWheelCollider.steerAngle = steeringAngle;
