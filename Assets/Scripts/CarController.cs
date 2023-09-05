@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum GearState
 {
@@ -14,6 +15,7 @@ public enum GearState
 public class CarController : MonoBehaviour
 {
     public float maxSteeringAngle;
+    public float movingDirection;
     public float motorPower;
     public float brakePower;
     public float speed;
@@ -42,6 +44,7 @@ public class CarController : MonoBehaviour
     public GameObject frontRightWheel;
     public GameObject bottomLeftWheel;
     public GameObject bottomRightWheel;
+    public GameObject brakeLights;
     
     private Rigidbody playerRb;
 
@@ -98,14 +101,19 @@ public class CarController : MonoBehaviour
     {
         acclInput = playerInputActions.Movements.Accl.ReadValue<float>();
         steerInput = playerInputActions.Movements.LeftRight.ReadValue<float>();
+        movingDirection = Vector3.Dot(transform.forward, playerRb.velocity);
 
-        float _movingDirection = Vector3.Dot(transform.forward, playerRb.velocity);
-        if (_movingDirection < -0.5f && acclInput > 0)
+        if (movingDirection < -0.5f && acclInput > 0)
             brakeInput = Mathf.Abs(acclInput);
-        else if (_movingDirection > 0.5f && acclInput < 0)
+        else if (movingDirection > 0.5f && acclInput < 0)
             brakeInput = Mathf.Abs(acclInput);
         else
             brakeInput = 0;
+
+        if (acclInput < 0)
+            brakeLights.SetActive(true);
+        else
+            brakeLights.SetActive(false);
     }
 
     public void Brake()
@@ -143,9 +151,8 @@ public class CarController : MonoBehaviour
 
     public void Steer()
     {
-        steeringAngle = steerInput * steeringCurve.Evaluate(speed);
-        steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
-
+        steeringAngle = Mathf.LerpAngle(steeringAngle,
+            steerInput * steeringCurve.Evaluate(speed), Time.deltaTime * 3f);
         frontLeftWheelCollider.steerAngle = steeringAngle;
         frontRightWheelCollider.steerAngle = steeringAngle;
     }
@@ -153,12 +160,8 @@ public class CarController : MonoBehaviour
     public void TiltSteer()
     {
         InputSystem.EnableDevice(Accelerometer.current);
-        float _sensitivity = 0.5f;
-
-        steerInput *= steeringCurve.Evaluate(speed) * _sensitivity;
-        steeringAngle = steerInput;
-        steeringAngle = Mathf.Clamp(steeringAngle, -steeringCurve.Evaluate(speed), steeringCurve.Evaluate(speed));
-        
+        steeringAngle = Mathf.LerpAngle(steeringAngle,
+            steerInput * steeringCurve.Evaluate(speed), 2f);
         frontLeftWheelCollider.steerAngle = steeringAngle;
         frontRightWheelCollider.steerAngle = steeringAngle;
     }
@@ -196,7 +199,12 @@ public class CarController : MonoBehaviour
 
     public float GetSpeedRatio()
     {
-        var _gas = Mathf.Clamp(Mathf.Abs(acclInput), 0.5f, 1f) * Mathf.Sign(acclInput);
-        return currentRPM * _gas / redlineRPM;
+        var _gas = Mathf.Clamp(Mathf.Abs(acclInput), .75f, 1f) * Mathf.Sign(acclInput);
+        return speed * _gas / 160;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Main");
     }
 }

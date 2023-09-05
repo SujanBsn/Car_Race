@@ -85,7 +85,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""76ba2447-a8d1-464b-a83d-b585cd3af872"",
                     ""path"": ""<Accelerometer>/acceleration/y"",
                     ""interactions"": """",
-                    ""processors"": ""AxisDeadzone(max=1)"",
+                    ""processors"": ""AxisDeadzone(min=1.2,max=7)"",
                     ""groups"": """",
                     ""action"": ""LeftRight"",
                     ""isComposite"": false,

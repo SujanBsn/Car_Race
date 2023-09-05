@@ -5,14 +5,14 @@ public class AudioController : MonoBehaviour
     public AudioSource runningSound;
     public AudioSource idleSound;
     public AudioSource reverseSound;
+    public AudioSource crashSound;
 
-    public float limiterSound = 1f;
-    public float limiterFreq = 3f;
-    public float limiterEngage = .8f;
+    public AudioClip[] collisionSounds;
 
     private CarController controller;
 
     private float speedRatio;
+    private float carSpeed;
     private float revLimiter;
 
     void Start()
@@ -25,27 +25,29 @@ public class AudioController : MonoBehaviour
     void Update()
     {
         speedRatio = Mathf.Abs(controller.GetSpeedRatio());
-
-        float _direction = Mathf.Sign(controller.GetSpeedRatio());
-
-        if (speedRatio > limiterEngage)
-            revLimiter = (Mathf.Sin(Time.time * limiterFreq) + 1f) * 
-                limiterSound * (speedRatio - limiterEngage);
+        carSpeed = Mathf.Abs(controller.speed);
+        float _direction = controller.movingDirection;
 
         idleSound.volume = Mathf.Lerp(.1f, 1f, speedRatio);
 
-        if (_direction > 0)
+        if (_direction > 0 && carSpeed > 5f)
         {
-            runningSound.volume = Mathf.Lerp(.3f, 1f, speedRatio);
-            runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(.3f, 1.5f, speedRatio) +
+            runningSound.volume = Mathf.Lerp(0, 0.5f, speedRatio);
+            runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(1f, 1.5f, speedRatio) +
                 revLimiter, Time.deltaTime);
             reverseSound.volume = 0;
         }
-        else
+        else if (_direction < 0 && carSpeed > 5f)
         {
-            reverseSound.volume = Mathf.Lerp(.3f, .5f, speedRatio);
-            reverseSound.pitch = 0.3f;
+            reverseSound.volume = .3f;
+            reverseSound.pitch = 1f;
             runningSound.volume = 0;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        int randomIndex = Random.Range(0, collisionSounds.Length);
+        crashSound.PlayOneShot(collisionSounds[randomIndex]);
     }
 }
