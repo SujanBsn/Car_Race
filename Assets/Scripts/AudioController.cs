@@ -9,6 +9,7 @@ public class AudioController : MonoBehaviour
 
     public AudioClip[] collisionSounds;
 
+    public SelectedCar selectedCar;
     private CarController controller;
 
     private float speedRatio;
@@ -20,28 +21,33 @@ public class AudioController : MonoBehaviour
         controller = GetComponent<CarController>();
         runningSound.volume = 0f;
         reverseSound.volume = 0f;
+        crashSound.volume = 0f;
     }
 
     void Update()
     {
-        speedRatio = Mathf.Abs(controller.GetSpeedRatio());
-        carSpeed = Mathf.Abs(controller.speed);
-        float _direction = controller.movingDirection;
-
-        idleSound.volume = Mathf.Lerp(.1f, 1f, speedRatio);
-
-        if (_direction > 0 && carSpeed > 5f)
+        if (selectedCar.isCarChosen)
         {
-            runningSound.volume = Mathf.Lerp(0, 0.5f, speedRatio);
-            runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(1f, 1.5f, speedRatio) +
-                revLimiter, Time.deltaTime);
-            reverseSound.volume = 0;
-        }
-        else if (_direction < 0 && carSpeed > 5f)
-        {
-            reverseSound.volume = .3f;
-            reverseSound.pitch = 1f;
-            runningSound.volume = 0;
+            crashSound.volume = 0.2f;
+            speedRatio = Mathf.Abs(controller.GetSpeedRatio());
+            carSpeed = Mathf.Abs(controller.speed);
+            float _direction = controller.movingDirection;
+
+            idleSound.volume = Mathf.Lerp(.1f, 1f, speedRatio);
+
+            if (_direction > 0 && carSpeed > 5f)
+            {
+                runningSound.volume = Mathf.Lerp(0, 0.5f, speedRatio);
+                runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(1f, 1.5f, speedRatio) +
+                    revLimiter, Time.deltaTime);
+                reverseSound.volume = 0;
+            }
+            else if (_direction < 0 && carSpeed > 5f)
+            {
+                reverseSound.volume = .3f;
+                reverseSound.pitch = 1f;
+                runningSound.volume = 0;
+            }
         }
     }
 

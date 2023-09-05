@@ -11,18 +11,25 @@ public class CarPartDamage : MonoBehaviour
     private float accumulatedDamage;
     private bool isFallen = false;
     private bool isBroken = false;
+    private bool hasHingeJoint = false;
 
     private void Start()
     {
         partRb = GetComponent<Rigidbody>();
-        hingeJoint = GetComponent<HingeJoint>();
-        initialLimits = hingeJoint.limits;
-        DisableHingeJoint();
+        if (TryGetComponent<HingeJoint>(out hingeJoint))
+            hasHingeJoint = true;
+
+        if (hasHingeJoint)
+        {
+            initialLimits = hingeJoint.limits;
+            DisableHingeJoint();
+        }
     }
 
     private void FixedUpdate()
     {
-        if (isBroken && gameObject.GetComponent<Rigidbody>().velocity.magnitude >= speedLimit)
+        if (hasHingeJoint && isBroken && gameObject.GetComponent<Rigidbody>().
+            velocity.magnitude >= speedLimit)
         {
             isFallen = true;
             hingeJoint.breakForce = 0f;
@@ -44,7 +51,8 @@ public class CarPartDamage : MonoBehaviour
 
     public void ApplyDamage(float _damageAmount)
     {
-        if (_damageAmount >= damageThreshold && !isFallen)
+        if (_damageAmount >= damageThreshold 
+            && !isFallen && hasHingeJoint)
         {
             EnableHingeJoint(_damageAmount);
         }
@@ -68,6 +76,6 @@ public class CarPartDamage : MonoBehaviour
 
     private void DisableHingeJoint()
     {
-        hingeJoint.limits = new JointLimits { min = 0f, max = 0f }; // Adjust the angles as needed.
+        hingeJoint.limits = new JointLimits { min = 0f, max = 0f };
     }
 }
