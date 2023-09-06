@@ -4,4 +4,5 @@ using UnityEngine;
 public class SelectedPart : ScriptableObject
 {
     public Material SelectedMaterial;
+    public int partIdForSticker;
 }

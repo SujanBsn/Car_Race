@@ -20,3 +20,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4e11836e2b2dee748852e840767e0649, type: 2}
   - {fileID: 2100000, guid: 7a8fd44d7cd5b104598412864f70be3b, type: 2}
   - {fileID: 2100000, guid: 5b03c90b21d610a41b114e8e50d3f39c, type: 2}
+  partSticker:
+  - {fileID: 2100000, guid: ab38429cd8e4d9144bd299a6fb18bacd, type: 2}
+  - {fileID: 2100000, guid: b992cdc4655064948b241c87bb07e50d, type: 2}
+  - {fileID: 2100000, guid: aa3ce99e095cd4845bcdb51955784660, type: 2}

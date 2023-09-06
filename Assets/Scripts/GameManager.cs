@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject ColourPickerCanvas;
+    public GameObject CustomizeCanvas;
+    public GameObject ColourObjects;
+    public GameObject StickerObjects;
     public GameObject CarSelectionCanvas;
     public GameObject RacingCanvas;
     public GameObject Vehicles;
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         CarSelectionCanvas.SetActive(true);
-        ColourPickerCanvas.SetActive(false);
+        CustomizeCanvas.SetActive(false);
         RacingCanvas.SetActive(false);
         Vehicles.SetActive(false);
         Terrain.SetActive(false);
@@ -39,19 +41,31 @@ public class GameManager : MonoBehaviour
 
     public void ReturnFromColorSelectButton()
     {
-        foreach (Transform t in ColourPickerCanvas.transform)
+        foreach (Transform t in CustomizeCanvas.transform)
         {
             t.gameObject.SetActive(true);
         }
 
-        ColourPickerCanvas.SetActive(false);
+        CustomizeCanvas.SetActive(false);
         CarSelectionCanvas.SetActive(true);
     }
 
     public void ColorSelectButton()
     {
         CarSelectionCanvas.SetActive(false);
-        ColourPickerCanvas.SetActive(true);
+        CustomizeCanvas.SetActive(true);
+    }
+
+    public void StickerSelectButton()
+    {
+        ColourObjects.SetActive(false);
+        StickerObjects.SetActive(true);
+    }
+
+    public void ReturnFromStickerButton()
+    {
+        ColourObjects.SetActive(true);
+        StickerObjects.SetActive(false);
     }
 
     public void PreviousCarButton()

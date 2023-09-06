@@ -5,4 +5,5 @@ public class CarParts : ScriptableObject
 {
     public string[] partName;
     public Material[] partMaterial;
+    public Material[] partSticker;
 }
