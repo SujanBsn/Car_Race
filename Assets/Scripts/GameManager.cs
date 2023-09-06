@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if(!selectedCar.isCarChosen)
-            currentCar.transform.Rotate(new(0, 1, 0), 1);
+            currentCar.transform.Rotate(new(0, 1, 0), .5f);
     }
 
     public void ReturnFromColorSelectButton()
