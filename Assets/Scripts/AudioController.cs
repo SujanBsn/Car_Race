@@ -7,6 +7,11 @@ public class AudioController : MonoBehaviour
     public AudioSource reverseSound;
     public AudioSource crashSound;
 
+    public float runningMaxVol;
+    public float idleMaxVol;
+    public float revMaxVol;
+    public float crashMaxVol;
+
     public AudioClip[] collisionSounds;
 
     public SelectedCar selectedCar;
@@ -28,25 +33,30 @@ public class AudioController : MonoBehaviour
     {
         if (selectedCar.isCarChosen)
         {
-            crashSound.volume = 0.2f;
+            crashSound.volume = crashMaxVol;
             speedRatio = Mathf.Abs(controller.GetSpeedRatio());
             carSpeed = Mathf.Abs(controller.speed);
             float _direction = controller.movingDirection;
 
-            idleSound.volume = Mathf.Lerp(.1f, 1f, speedRatio);
+            idleSound.volume = Mathf.Lerp(.1f, idleMaxVol, speedRatio);
 
-            if (_direction > 0 && carSpeed > 5f)
+            if (_direction > 0.5f && carSpeed > 5f)
             {
-                runningSound.volume = Mathf.Lerp(0, 0.5f, speedRatio);
+                runningSound.volume = Mathf.Lerp(0, runningMaxVol, speedRatio);
                 runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(1f, 1.5f, speedRatio) +
                     revLimiter, Time.deltaTime);
                 reverseSound.volume = 0;
             }
-            else if (_direction < 0 && carSpeed > 5f)
+            else if (_direction < -0.5f && carSpeed > 5f)
             {
-                reverseSound.volume = .3f;
+                reverseSound.volume = Mathf.Lerp(reverseSound.volume, revMaxVol, speedRatio);
                 reverseSound.pitch = 1f;
                 runningSound.volume = 0;
+            }
+            else if (carSpeed <= 5f)
+            {
+                runningSound.volume = 0f;
+                reverseSound.volume = 0f;
             }
         }
     }

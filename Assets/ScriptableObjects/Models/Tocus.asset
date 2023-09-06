@@ -21,6 +21,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b5cd0cc8c27eca14cba51e6cb25bf96f, type: 2}
   - {fileID: 2100000, guid: 180978a96891b3142bf4864c2a27b259, type: 2}
   partSticker:
-  - {fileID: 2100000, guid: c0203d7a153b92c468464f9d500c03f0, type: 2}
-  - {fileID: 2100000, guid: 6215fa2e41d77d24bb1d127bbe3c639f, type: 2}
-  - {fileID: 2100000, guid: 73a42d80095101546ad957cba78e78d7, type: 2}
+  - {fileID: 2100000, guid: 529d450eb0660c044886cca87cb63d44, type: 2}
+  - {fileID: 2100000, guid: cd763fd75095d2d498e22ca44babf4ac, type: 2}
+  - {fileID: 2100000, guid: c4274fde215e3f14283fc88d4a4d7227, type: 2}

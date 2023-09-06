@@ -44,7 +44,8 @@ public class CarController : MonoBehaviour
     public GameObject frontRightWheel;
     public GameObject bottomLeftWheel;
     public GameObject bottomRightWheel;
-    public GameObject brakeLights;
+    public GameObject brakeLight_L;
+    public GameObject brakeLight_R;
     
     private Rigidbody playerRb;
 
@@ -111,9 +112,15 @@ public class CarController : MonoBehaviour
             brakeInput = 0;
 
         if (acclInput < 0)
-            brakeLights.SetActive(true);
+        {
+            brakeLight_L.SetActive(true);
+            brakeLight_R.SetActive(true);
+        }
         else
-            brakeLights.SetActive(false);
+        {
+            brakeLight_L.SetActive(false);
+            brakeLight_R.SetActive(false);
+        }
     }
 
     public void Brake()
