@@ -41,31 +41,33 @@ public class GameManager : MonoBehaviour
 
     public void ReturnFromColorSelectButton()
     {
-        foreach (Transform t in CustomizeCanvas.transform)
-        {
-            t.gameObject.SetActive(true);
-        }
+        //foreach (Transform t in CustomizeCanvas.transform)
+        //{
+        //    t.gameObject.SetActive(true);
+        //}
 
         CustomizeCanvas.SetActive(false);
+        StickerObjects.SetActive(false);
         CarSelectionCanvas.SetActive(true);
+    }
+
+    public void ReturnFromStickerButton()
+    {
+        StickerObjects.SetActive(false);
+        ColourObjects.SetActive(true);
     }
 
     public void ColorSelectButton()
     {
         CarSelectionCanvas.SetActive(false);
         CustomizeCanvas.SetActive(true);
+        ColourObjects.SetActive(true);
     }
 
     public void StickerSelectButton()
     {
         ColourObjects.SetActive(false);
         StickerObjects.SetActive(true);
-    }
-
-    public void ReturnFromStickerButton()
-    {
-        ColourObjects.SetActive(true);
-        StickerObjects.SetActive(false);
     }
 
     public void PreviousCarButton()
