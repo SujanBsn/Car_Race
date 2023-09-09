@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject currentCar;
 
     public Transform rotatePos;
+    public Transform beginPos;
 
     public SelectedCar selectedCar;
 
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public CarParts[] parts;
 
-    int currentId = 1;
+    int currentId = 0;
 
     private void Awake()
     {
@@ -41,11 +42,6 @@ public class GameManager : MonoBehaviour
 
     public void ReturnFromColorSelectButton()
     {
-        //foreach (Transform t in CustomizeCanvas.transform)
-        //{
-        //    t.gameObject.SetActive(true);
-        //}
-
         CustomizeCanvas.SetActive(false);
         StickerObjects.SetActive(false);
         CarSelectionCanvas.SetActive(true);
@@ -96,7 +92,7 @@ public class GameManager : MonoBehaviour
         selectedCar.carParts = parts[currentId];
         selectedCar.currentCarID = currentId;
         Destroy(currentCar);
-        CreateCar();
+        CreateCarToDisplay();
     }
 
     public void StartGameButton()
@@ -109,10 +105,12 @@ public class GameManager : MonoBehaviour
         selectedCar.isCarChosen = true;
 
         Destroy(currentCar);
+        cars[currentId].transform.position = beginPos.position;
+        cars[currentId].transform.rotation = beginPos.rotation;
         cars[currentId].SetActive(true);
     }
 
-    public void CreateCar()
+    public void CreateCarToDisplay()
     {
         currentCar = Instantiate(cars[currentId]);
         currentCar.GetComponent<CarController>().enabled = false;

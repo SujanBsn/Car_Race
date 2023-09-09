@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9558d38c97f606e4d9d1b11fbc860fb3, type: 3}
+  m_Name: Sport_03
+  m_EditorClassIdentifier: 
+  partName:
+  - Body
+  - Doors
+  - Hood
+  partMaterial:
+  - {fileID: 2100000, guid: 8812619dfd08c17408344db73028c192, type: 2}
+  - {fileID: 2100000, guid: d85a38f9d0f50c3489969504fae87d0b, type: 2}
+  - {fileID: 2100000, guid: d1d0bcbd84394d04997b55cb7aaeeb4d, type: 2}
+  partSticker:
+  - {fileID: 2100000, guid: a662796ada3a7b44d9bbde1306278895, type: 2}
+  - {fileID: 2100000, guid: 7767a1fbe70ecec4d9d7b164b838213c, type: 2}
+  - {fileID: 2100000, guid: cc6d42bfdae51044895cd6a391ca0e5b, type: 2}
