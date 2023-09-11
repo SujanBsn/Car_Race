@@ -10,7 +10,7 @@ public class BrokenGlass : MonoBehaviour
 
     private void Start()
     {
-        glassRenderer = gameObject.GetComponent<Renderer>();
+        gameObject.TryGetComponent<Renderer>(out glassRenderer);
 
         if (glassRenderer == null)
         {
@@ -31,6 +31,9 @@ public class BrokenGlass : MonoBehaviour
 
     public void ApplyDamage(float _damageAmount)
     {
+        Debug.Log("Demn: " + damageTaken);
+        if (damageTaken >= damageThreshold * 2) 
+            Destroy(gameObject);
         int newMaterialIndex = Mathf.FloorToInt((_damageAmount / damageThreshold) * (glassMaterials.Length - 1));
         newMaterialIndex = Mathf.Clamp(newMaterialIndex, 0, glassMaterials.Length - 1);
         
