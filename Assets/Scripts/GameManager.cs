@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
 
     public void ReturnFromColorSelectButton()
     {
+        foreach (Transform t in ColourObjects.transform)
+        {
+            t.gameObject.SetActive(true);
+        }
+
         CustomizeCanvas.SetActive(false);
         StickerObjects.SetActive(false);
         CarSelectionCanvas.SetActive(true);
@@ -49,6 +54,11 @@ public class GameManager : MonoBehaviour
 
     public void ReturnFromStickerButton()
     {
+        foreach (Transform t in StickerObjects.transform)
+        {
+            t.gameObject.SetActive(true);
+        }
+
         StickerObjects.SetActive(false);
         ColourObjects.SetActive(true);
     }

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -38,6 +39,20 @@ public class AddStickers : MonoBehaviour
 
     public void CheckForNullSticker()
     {
+        if (!gameObject.CompareTag("sticker"))
+        {
+            bool found = false;
+            for (int i = 0; i < selectedCar.carParts.partName.Count(); i++)
+            {
+                if (selectedCar.carParts.partName[i] == gameObject.name)
+                {
+                    found = true;
+                }
+            }
+            if (!found)
+                gameObject.SetActive(false);
+        }
+
         gameObject.TryGetComponent<DecalProjector>(out DecalProjector _projector);
         if (_projector != null)
         {
