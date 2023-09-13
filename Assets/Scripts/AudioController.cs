@@ -7,6 +7,10 @@ public class AudioController : MonoBehaviour
     public AudioSource reverseSound;
     public AudioSource crashSound;
 
+    public float idlePitch;
+    public float runningMinPitch;
+    public float runningMaxPitch;
+    
     public float runningMaxVol;
     public float idleMaxVol;
     public float revMaxVol;
@@ -38,12 +42,14 @@ public class AudioController : MonoBehaviour
             carSpeed = Mathf.Abs(controller.speed);
             float _direction = controller.movingDirection;
 
-            idleSound.volume = Mathf.Lerp(.1f, idleMaxVol, speedRatio);
+            idleSound.volume = Mathf.Lerp(.3f, idleMaxVol, speedRatio);
+            idleSound.pitch = idlePitch;
 
             if (_direction > 0.5f && carSpeed > 5f)
             {
                 runningSound.volume = Mathf.Lerp(0, runningMaxVol, speedRatio);
-                runningSound.pitch = Mathf.Lerp(runningSound.pitch, Mathf.Lerp(1f, 1.5f, speedRatio) +
+                runningSound.pitch = Mathf.Lerp(runningSound.pitch,
+                    Mathf.Lerp(runningMinPitch, runningMaxPitch, speedRatio) +
                     revLimiter, Time.deltaTime);
                 reverseSound.volume = 0;
             }
