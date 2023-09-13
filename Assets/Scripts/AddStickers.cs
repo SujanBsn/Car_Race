@@ -39,7 +39,7 @@ public class AddStickers : MonoBehaviour
 
     public void CheckForNullSticker()
     {
-        if (!gameObject.CompareTag("sticker"))
+        if (gameObject.CompareTag("stickerPart"))
         {
             bool found = false;
             for (int i = 0; i < selectedCar.carParts.partName.Count(); i++)
