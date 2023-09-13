@@ -24,6 +24,8 @@ public class CarController : MonoBehaviour
     public float differentialRatio;
     public float increaseGearRPM;
     public float decreaseGearRPM;
+    public float frontBrakeStrength;
+    public float rearBrakeStrength;
 
     public float[] gearRatio;
     public float[] speedPerGear;
@@ -125,11 +127,11 @@ public class CarController : MonoBehaviour
 
     public void Brake()
     {
-        frontLeftWheelCollider.brakeTorque = brakePower * brakeInput * .7f;
-        frontRightWheelCollider.brakeTorque = brakePower * brakeInput * .7f;
+        frontLeftWheelCollider.brakeTorque = brakePower * brakeInput * frontBrakeStrength;
+        frontRightWheelCollider.brakeTorque = brakePower * brakeInput * frontBrakeStrength;
 
-        bottomLeftWheelCollider.brakeTorque = brakePower * brakeInput * .3f;
-        bottomRightWheelCollider.brakeTorque = brakePower * brakeInput * .3f;
+        bottomLeftWheelCollider.brakeTorque = brakePower * brakeInput * rearBrakeStrength;
+        bottomRightWheelCollider.brakeTorque = brakePower * brakeInput * rearBrakeStrength;
     }
     public float CalculateTorque()
     {
